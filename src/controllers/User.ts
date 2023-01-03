@@ -36,8 +36,7 @@ const authenticateUser = async (req: Request, res: Response, next: NextFunction)
             email: user.email
         });
     } else {
-        res.status(400);
-        throw new Error('Invalid credentials');
+        res.status(400).json({ message: 'Invalid credentials'});
     }
 }
 
