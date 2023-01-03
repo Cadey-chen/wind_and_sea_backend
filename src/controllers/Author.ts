@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Author from '../models/Author';
 
-const createAuthor = (req: Request, res: Response, next: NextFunction) => {
+const createAuthor = async (req: Request, res: Response, next: NextFunction) => {
     const { name } = req.body;
 
     const author = new Author({
@@ -10,30 +10,30 @@ const createAuthor = (req: Request, res: Response, next: NextFunction) => {
         name
     });
 
-    return author
+    return await author
     .save()
     .then(author => res.status(201).json({ author }))
     .catch((error) => res.status(500).json({ error }));
 };
 
-const readOneAuthor = (req: Request, res: Response, next: NextFunction) => {
+const readOneAuthor = async (req: Request, res: Response, next: NextFunction) => {
     const authorId = req.params.authorId;
 
-    return Author.findById(authorId)
+    return await Author.findById(authorId)
     .then(author => author ? res.status(200).json({ author }) : res.status(404).json({ message: 'Not found.' }));
 };
 
 
-const readAllAuthor = (req: Request, res: Response, next: NextFunction) => {
-    return Author.find()
+const readAllAuthor = async (req: Request, res: Response, next: NextFunction) => {
+    return await Author.find()
     .then((authors) => res.status(200).json({ authors }))
     .catch((error) => res.status(500).json( { error }));
 };
 
-const UpdateAuthor = (req: Request, res: Response, next: NextFunction) => {
+const UpdateAuthor = async (req: Request, res: Response, next: NextFunction) => {
     const authorId = req.params.authorId;
 
-    return Author.findById(authorId)
+    return await Author.findById(authorId)
     .then((author) => {
         if (author) {
             author.set(req.body);
@@ -49,10 +49,10 @@ const UpdateAuthor = (req: Request, res: Response, next: NextFunction) => {
     .catch((error) => res.status(500).json( { error }));
 };
 
-const DeleteAuthor = (req: Request, res: Response, next: NextFunction) => {
+const DeleteAuthor = async (req: Request, res: Response, next: NextFunction) => {
     const authorId = req.params.authorId;
 
-    return Author.findByIdAndDelete(authorId).then((author) => (author ? res.status(201).json({ message: 'deleted' }) : res.status(404).json({ message: 'Not found' })))
+    return await Author.findByIdAndDelete(authorId).then((author) => (author ? res.status(201).json({ message: 'deleted' }) : res.status(404).json({ message: 'Not found' })))
     .catch((error) => res.status(500).json( { error }));
 };
 

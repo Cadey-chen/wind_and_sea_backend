@@ -48,5 +48,17 @@ exports.Schemas = {
                 .required(),
             title: joi_1.default.string().required()
         })
+    },
+    user: {
+        create: joi_1.default.object({
+            username: joi_1.default.string().required(),
+            email: joi_1.default.string().required(),
+            password: joi_1.default.string().required()
+        }),
+        update: joi_1.default.object({
+            username: joi_1.default.string().required(),
+            email: joi_1.default.string().required(),
+            password: joi_1.default.string().required()
+        })
     }
 };

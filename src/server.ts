@@ -5,6 +5,7 @@ import { config } from './config/config';
 import Logging from './library/Logging';
 import authorRoutes from './routes/Author';
 import bookRoutes from './routes/Book';
+import userRoutes from './routes/User';
 
 const router = express();
 
@@ -52,6 +53,7 @@ const StartServer = () => {
     /** Routes */
     router.use('/authors', authorRoutes);
     router.use('/books', bookRoutes);
+    router.use('/users', userRoutes);
 
     /** Healthcheck */
     router.get('/helloThere', (req, res, next) => res.status(200).json({ message: 'hi'}));

@@ -3,6 +3,7 @@ import { NextFunction, Response, Request } from "express";
 import Logging from "../library/Logging";
 import { IAuthor } from '../models/Author';
 import { IBook } from '../models/Book';
+import { IUser } from '../models/User';
 
 export const ValidateSchema = (schema: ObjectSchema) => {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -36,5 +37,17 @@ export const Schemas = {
             .required(),
             title: Joi.string().required()
         })
+    },
+    user: {
+        create: Joi.object<IUser>({
+            username: Joi.string().required(),
+            email: Joi.string().required(),
+            password: Joi.string().required()
+        }),
+        update: Joi.object<IUser>({
+            username: Joi.string().required(),
+            email: Joi.string().required(),
+            password: Joi.string().required()
+        }) 
     }
 };
