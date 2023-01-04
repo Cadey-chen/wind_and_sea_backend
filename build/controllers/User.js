@@ -36,15 +36,12 @@ const authenticateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     const { username, password } = req.body;
     // Check for username
     const user = yield User_1.default.findOne({ username });
+    console.log(JSON.stringify(user));
     if (user && (yield bcrypt_1.default.compare(password, user.password))) {
-        return res.status(201).json({
-            _id: user._id,
-            username: user.username,
-            email: user.email
-        });
+        return res.status(201).json({ user });
     }
     else {
-        res.status(400).json('Invalid credentials');
+        res.status(400).json({ message: 'Invalid credentials' });
     }
 });
 const readOneUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
