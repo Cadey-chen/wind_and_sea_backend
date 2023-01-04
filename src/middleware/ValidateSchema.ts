@@ -28,14 +28,22 @@ export const Schemas = {
     },
     book: {
         create: Joi.object<IBook>({
-            author: Joi.string().regex(/^[0-9a-fA-F]{24}$/)
-            .required(),
-            title: Joi.string().required()
-        }),
+            type: Joi.string().required(),
+            author: Joi.string().required(),
+            title: Joi.string().required(),
+            description: Joi.string().required(),
+            userID: Joi.string().required(),
+            yearPublished: Joi.string().required(),
+            url: Joi.string().required()
+        }), 
         update: Joi.object<IBook>({
-            author: Joi.string().regex(/^[0-9a-fA-F]{24}$/)
-            .required(),
-            title: Joi.string().required()
+            type: Joi.string().required(),
+            author: Joi.string().required(),
+            title: Joi.string().required(),
+            description: Joi.string().required(),
+            userID: Joi.string().required(),
+            yearPublished: Joi.string().required(),
+            url: Joi.string().required()
         })
     },
     user: {

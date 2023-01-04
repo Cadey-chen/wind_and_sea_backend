@@ -7,6 +7,7 @@ const router = express.Router();
 router.post('/create', ValidateSchema(Schemas.book.create), controller.createBook);
 router.get('/get/:bookId', controller.readOneBook);
 router.get('/get/', controller.readAllBook);
+router.get('/getByUser/:userId', controller.getBookByUser);
 router.patch('/update/:bookId', ValidateSchema(Schemas.book.create), controller.UpdateBook);
 router.delete('/delete/:bookId', controller.DeleteBook);
 

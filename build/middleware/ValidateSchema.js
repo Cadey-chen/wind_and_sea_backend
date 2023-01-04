@@ -39,14 +39,22 @@ exports.Schemas = {
     },
     book: {
         create: joi_1.default.object({
-            author: joi_1.default.string().regex(/^[0-9a-fA-F]{24}$/)
-                .required(),
-            title: joi_1.default.string().required()
+            type: joi_1.default.string().required(),
+            author: joi_1.default.string().required(),
+            title: joi_1.default.string().required(),
+            description: joi_1.default.string().required(),
+            userID: joi_1.default.string().required(),
+            yearPublished: joi_1.default.string().required(),
+            url: joi_1.default.string().required()
         }),
         update: joi_1.default.object({
-            author: joi_1.default.string().regex(/^[0-9a-fA-F]{24}$/)
-                .required(),
-            title: joi_1.default.string().required()
+            type: joi_1.default.string().required(),
+            author: joi_1.default.string().required(),
+            title: joi_1.default.string().required(),
+            description: joi_1.default.string().required(),
+            userID: joi_1.default.string().required(),
+            yearPublished: joi_1.default.string().required(),
+            url: joi_1.default.string().required()
         })
     },
     user: {

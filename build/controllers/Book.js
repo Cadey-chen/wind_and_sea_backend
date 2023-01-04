@@ -15,10 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const Book_1 = __importDefault(require("../models/Book"));
 const createBook = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { title, author } = req.body;
+    const { type, author, title, description, userID, yearPublished, url } = req.body;
     const book = new Book_1.default({
         _id: new mongoose_1.default.Types.ObjectId(),
-        title, author
+        type, author, title, description, userID, yearPublished,
+        url
     });
     return yield book
         .save()
@@ -35,9 +36,17 @@ const readOneBook = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
 const readAllBook = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     return yield Book_1.default.find()
         .populate('author')
+        .populate('title')
+        .populate('url')
         .select('-__v')
         .then((books) => res.status(200).json({ books }))
         .catch((error) => res.status(500).json({ error }));
+});
+const getBookByUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const uid = req.params.userId;
+    return yield Book_1.default.find({ userID: uid })
+        .select('-__v')
+        .then(book => book ? res.status(200).json({ book }) : res.status(404).json({ message: 'Not found.' }));
 });
 const UpdateBook = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const bookId = req.params.bookId;
@@ -61,4 +70,4 @@ const DeleteBook = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     return yield Book_1.default.findByIdAndDelete(bookId).then((book) => (book ? res.status(201).json({ message: 'deleted' }) : res.status(404).json({ message: 'Not found' })))
         .catch((error) => res.status(500).json({ error }));
 });
-exports.default = { createBook, readOneBook, readAllBook, UpdateBook, DeleteBook };
+exports.default = { createBook, readOneBook, readAllBook, UpdateBook, DeleteBook, getBookByUser };
