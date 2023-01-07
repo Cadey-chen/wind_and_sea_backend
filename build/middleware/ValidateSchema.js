@@ -52,7 +52,6 @@ exports.Schemas = {
             author: joi_1.default.string().required(),
             title: joi_1.default.string().required(),
             description: joi_1.default.string().required(),
-            userID: joi_1.default.string().required(),
             yearPublished: joi_1.default.string().required(),
             url: joi_1.default.string().required()
         })

@@ -41,7 +41,6 @@ export const Schemas = {
             author: Joi.string().required(),
             title: Joi.string().required(),
             description: Joi.string().required(),
-            userID: Joi.string().required(),
             yearPublished: Joi.string().required(),
             url: Joi.string().required()
         })
