@@ -11,7 +11,10 @@ const Logging_1 = __importDefault(require("./library/Logging"));
 const Author_1 = __importDefault(require("./routes/Author"));
 const Book_1 = __importDefault(require("./routes/Book"));
 const User_1 = __importDefault(require("./routes/User"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const router = (0, express_1.default)();
+const mongo_uri = process.env.MONGO_URI;
 /** Connect to Mongo */
 mongoose_1.default.connect(config_1.config.mongo.url, { retryWrites: true, w: 'majority' })
     .then(() => {
