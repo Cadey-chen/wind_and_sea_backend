@@ -7,7 +7,13 @@ import authorRoutes from './routes/Author';
 import bookRoutes from './routes/Book';
 import userRoutes from './routes/User';
 
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 const router = express();
+
+const mongo_uri = process.env.MONGO_URI;
 
 /** Connect to Mongo */
 mongoose.connect(config.mongo.url, { retryWrites: true, w: 'majority' })
