@@ -6,6 +6,12 @@ import bcrypt from 'bcrypt';
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
     const { username, email, password } = req.body;
 
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+        res.status(500).json({ message: "This username is already taken" });
+    } else {
+
     // Hash password 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -21,6 +27,7 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
         let error = new Error('Invalid user data');
         res.status(500).json({ error });
     }
+}
 };
 
 const authenticateUser = async (req: Request, res: Response, next: NextFunction) => {
@@ -28,7 +35,6 @@ const authenticateUser = async (req: Request, res: Response, next: NextFunction)
 
     // Check for username
     const user = await User.findOne({ username });
-    console.log(JSON.stringify(user));
 
     if (user && (await bcrypt.compare(password, user.password))) {
         return res.status(201).json({ user });

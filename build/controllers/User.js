@@ -17,26 +17,32 @@ const User_1 = __importDefault(require("../models/User"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const createUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, email, password } = req.body;
-    // Hash password 
-    const salt = yield bcrypt_1.default.genSalt(10);
-    const hashedPassword = yield bcrypt_1.default.hash(password, salt);
-    const user = yield User_1.default.create({
-        _id: new mongoose_1.default.Types.ObjectId(),
-        username, email, password: hashedPassword
-    });
-    if (user) {
-        res.status(201).json({ user });
+    const existingUser = yield User_1.default.findOne({ username });
+    if (existingUser) {
+        res.status(500).json({ message: "This username is already taken" });
     }
     else {
-        let error = new Error('Invalid user data');
-        res.status(500).json({ error });
+        // Hash password 
+        const salt = yield bcrypt_1.default.genSalt(10);
+        const hashedPassword = yield bcrypt_1.default.hash(password, salt);
+        const user = yield User_1.default.create({
+            _id: new mongoose_1.default.Types.ObjectId(),
+            username, email, password: hashedPassword
+        });
+        if (user) {
+            res.status(201).json({ user });
+        }
+        else {
+            let error = new Error('Invalid user data');
+            res.status(500).json({ error });
+        }
     }
 });
 const authenticateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
     // Check for username
     const user = yield User_1.default.findOne({ username });
-    console.log(JSON.stringify(user));
+    // console.log(JSON.stringify(user));
     if (user && (yield bcrypt_1.default.compare(password, user.password))) {
         return res.status(201).json({ user });
     }
